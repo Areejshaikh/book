@@ -1,55 +1,79 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+
+Sync Impact Report:
+Version change: 1.0.0 -> 1.1.0
+Modified principles: Mission, Frontend Minimalism & Speed, Core Constraints, Architecture Principles, RAG Rules, Personalization, Localization, Deployment requirements
+Added sections: CONTENT STRUCTURE, BACKEND ARCHITECTURE, RAG CHATBOT RULES, PERSONALIZATION, LOCALIZATION, DEPLOYMENT
+Removed sections: Core Deliverables, Success Criteria, Non-Goals, User Stories, Risk & Mitigation
+Templates requiring updates:
+- .specify/templates/plan-template.md: ⚠ pending
+- .specify/templates/spec-template.md: ⚠ pending
+- .specify/templates/tasks-template.md: ⚠ pending
+- .specify/templates/commands/*.md: ⚠ pending
+Follow-up TODOs: None
+
+-->
+# Physical AI & Humanoid Robotics Book with Integrated RAG Chatbot Constitution
+
+## Mission
+
+Create a fast, simple, beautiful educational platform that teaches Physical AI, robotics fundamentals, and humanoid systems using an AI-powered, interactive textbook.
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Frontend Minimalism & Speed
+The frontend MUST be extremely minimal, mobile-first, and readable on low-end phones. No unnecessary animations, libraries, or visual noise are allowed. Large readable typography with maximum 2 font weights, card-based layout only, light shadows, no heavy gradients. Pages MUST load fast on 3G connections.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Content Constraints
+All content MUST be beginner-friendly but technically correct. Total reading time of all chapters combined MUST NOT exceed 45 minutes. This ensures focused, efficient learning without overwhelming users with excessive information.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Backend Architecture
+The backend MUST be modular, utilizing FastAPI with clearly defined services and routes. Data MUST be stored cleanly in Neon for relational data and Qdrant for vector storage. MiniLM embeddings MUST be used for RAG implementation.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. RAG Implementation Requirements
+The RAG chatbot MUST only answer using textbook content with no hallucinations. All answers MUST be grounded and factual with proper chunking and citation logic. This ensures educational accuracy and reliability.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+## Content Structure
 
-### [PRINCIPLE_6_NAME]
+- Total chapters: 12
+- Each chapter MUST include:
+  - Short introduction
+  - Core concept explanation
+  - One visual/diagram placeholder
+  - 3-bullet summary
+  - 3-question quiz
 
+## Backend Architecture
 
-[PRINCIPLE__DESCRIPTION]
+- FastAPI with modular services and routes
+- Neon for relational data
+- Qdrant for vector storage
+- MiniLM embeddings for RAG
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## RAG Chatbot Rules
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- MUST only answer using textbook content
+- No hallucinations
+- All answers MUST be grounded and factual
+- Use chunking + citation logic
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Personalization
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Implement user authentication using Better-Auth
+- Adapt content depth based on user background
+
+## Localization
+
+- Provide one-click Urdu translation
+- Translation MUST preserve technical meaning
+
+## Deployment
+
+- Must run on free tiers
+- Support Vercel, Railway, Neon, Qdrant
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This Constitution supersedes all other practices. Amendments require documentation, approval, and a migration plan. All Pull Requests and code reviews MUST verify compliance with these principles. Any increase in complexity MUST be justified. The `QWEN.md` file serves as runtime development guidance.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.1.0 | **Ratified**: 2025-12-09 | **Last Amended**: 2025-12-13

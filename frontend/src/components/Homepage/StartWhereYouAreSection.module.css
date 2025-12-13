@@ -1,0 +1,142 @@
+/* Start Where You Are Section Styles */
+.startSection {
+  padding: 5rem 0;
+  background-color: white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.textCenter {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #111827; /* gray-900 */
+  margin-bottom: 1rem;
+}
+
+.sectionSubtitle {
+  font-size: 1.25rem;
+  color: #4b5563; /* gray-600 */
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+  .cardsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.optionCard {
+  background-color: #f9fafb; /* gray-50 */
+  border: 1px solid #e5e7eb; /* gray-200 */
+  border-radius: 0.75rem; /* rounded-lg */
+  padding: 2rem;
+  text-align: center;
+  transition: box-shadow 0.3s;
+}
+
+.optionCard:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.cardTitle {
+  font-size: 1.25rem; /* text-lg */
+  font-weight: bold;
+  color: #111827; /* gray-900 */
+  margin-bottom: 1rem;
+}
+
+.icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px; /* rounded-full */
+  font-size: 0.875rem; /* text-sm */
+}
+
+.blueTag {
+  background-color: #dbeafe; /* blue-100 */
+  color: #1e3a8a; /* blue-800 */
+}
+
+.greenTag {
+  background-color: #dcfce7; /* green-100 */
+  color: #166534; /* green-800 */
+}
+
+.purpleTag {
+  background-color: #ede9fe; /* violet-100 */
+  color: #581c87; /* violet-800 */
+}
+
+.yellowTag {
+  background-color: #fef9c3; /* yellow-100 */
+  color: #854d0e; /* yellow-800 */
+}
+
+.redTag {
+  background-color: #fee2e2; /* red-100 */
+  color: #991b1b; /* red-800 */
+}
+
+.defaultTag {
+  background-color: #e5e7eb; /* gray-200 */
+  color: #374151; /* gray-700 */
+}
+
+.priceTag {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #111827; /* gray-900 */
+  margin: 0.25rem 0;
+}
+
+.priceDetail {
+  color: #6b7280; /* gray-500 */
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.featuresList {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  color: #4b5563; /* gray-600 */
+}
+
+.featureItem {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+}
+
+.featureItem:last-child {
+  border-bottom: none;
+}
