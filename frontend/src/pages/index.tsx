@@ -4,8 +4,8 @@ import Layout from '@theme/Layout';
 
 // Import the available homepage components
 import HeroSection from '@site/src/components/Homepage/HeroSection';
-import ModulesSection from '@site/src/components/Homepage/ModulesSection';
 import WhyThisMattersSection from '@site/src/components/Homepage/WhyThisMattersSection';
+import ModulesSection from '@site/src/components/Homepage/ModulesSection';
 import StartWhereYouAreSection from '@site/src/components/Homepage/StartWhereYouAreSection';
 import FinalCTASection from '@site/src/components/Homepage/FinalCTASection';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
@@ -19,9 +19,9 @@ export default function Home(): JSX.Element {
       <HeroSection />
       <main>
         <WhyThisMattersSection />
-        <HomepageFeatures />
         <ModulesSection />
         <StartWhereYouAreSection />
+        <HomepageFeatures />
         <FinalCTASection />
       </main>
     </Layout>
