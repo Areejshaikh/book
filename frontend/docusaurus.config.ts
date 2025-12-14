@@ -15,15 +15,15 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://textbook.physical-ai.com',  // Replace with your site's URL
+  url: 'https://areejshaikh.github.io',  // Replace with your site's URL
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',  // GitHub Pages base URL for this project
+  baseUrl: '/book/',  // GitHub Pages base URL for this project
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'physical-ai', // Usually your GitHub org/user name.
-  projectName: 'textbook-platform', // Usually your repo name.
+  organizationName: 'areejshaikh', // Usually your GitHub org/user name.
+  projectName: 'book', // Usually your repo name.
 
   onBrokenLinks: 'throw',  // Set back to throw after verifying all links work
   onBrokenMarkdownLinks: 'warn',
@@ -109,7 +109,7 @@ const config: Config = {
           className: 'navbar-button--primary'
         },
         {
-          href: 'https://github.com/physical-ai/textbook-platform',
+          href: 'https://github.com/areejshaikh/book',
           label: 'GitHub',
           position: 'right',
         },
@@ -157,7 +157,7 @@ const config: Config = {
             },
             {
               label: 'GitHub',
-              href: 'https://github.com/physical-ai/textbook-platform',
+              href: 'https://github.com/areejshaikh/book',
             },
           ],
         },

@@ -5,8 +5,11 @@
   "main": "text_generator.js",
   "scripts": {
     "prebuild": "cd frontend && npm install",
+    "docusaurus": "cd frontend && npm run docusaurus",
     "build": "cd frontend && npm run build",
     "start": "cd frontend && npm run start",
+    "serve": "cd frontend && npm run serve",
+    "clear": "cd frontend && npm run clear",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
