@@ -10,10 +10,10 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://book-alpha-three.vercel.app',  // Vercel deployment URL
+  url: 'https://areejshaikh.github.io',  // GitHub Pages base URL
   // Set the /<baseUrl>/ pathname under which your site is served
-  baseUrl: '/',  // For Vercel root deployment
-  // GitHub pages deployment config (only needed for GitHub Pages)
+  baseUrl: '/book/',  // For GitHub Pages project site (https://username.github.io/repo-name/)
+  // GitHub pages deployment config
   organizationName: 'areejshaikh', // Usually your GitHub org/user name.
   projectName: 'book', // Usually your repo name.
 
