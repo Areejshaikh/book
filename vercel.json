@@ -13,10 +13,22 @@
   "routes": [
     {
       "src": "/(.*)",
+      "dest": "/index.html",
+      "headers": {
+        "Cache-Control": "public, max-age=0"
+      }
+    },
+    {
+      "src": "/(.*\\.\\w+)$",
       "dest": "/$1",
-      "check": true
+      "headers": {
+        "Cache-Control": "public, max-age=31536000"
+      }
+    },
+    {
+      "src": "/(.+)",
+      "dest": "/index.html"
     }
   ],
-  "outputDirectory": "frontend/build",
-  "framework": "docusaurus"
+  "outputDirectory": "frontend/build"
 }

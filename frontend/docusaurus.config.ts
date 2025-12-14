@@ -9,23 +9,15 @@ const config: Config = {
   tagline: 'Interactive Learning Platform',
   favicon: 'img/favicon.ico',
 
-  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
-  future: {
-    v4: true, // Improve compatibility with the upcoming Docusaurus v4
-  },
-
   // Set the production url of your site here
-  url: 'https://areejshaikh.github.io',  // Replace with your site's URL
+  url: 'https://book-alpha-three.vercel.app',  // Vercel deployment URL
   // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/book/',  // GitHub Pages base URL for this project
-
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
+  baseUrl: '/',  // For Vercel root deployment
+  // GitHub pages deployment config (only needed for GitHub Pages)
   organizationName: 'areejshaikh', // Usually your GitHub org/user name.
   projectName: 'book', // Usually your repo name.
 
-  onBrokenLinks: 'throw',  // Set back to throw after verifying all links work
+  onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
