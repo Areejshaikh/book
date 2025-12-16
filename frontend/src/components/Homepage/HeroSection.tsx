@@ -25,7 +25,7 @@ const HeroSection = () => {
             Get Started
           </Link>
           <Link
-            to="/docs/category/textbook-chapters"
+            to="/docs/intro"
             className={styles.browseContentBtn}
           >
             Browse Content

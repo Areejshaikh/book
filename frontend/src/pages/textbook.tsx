@@ -131,7 +131,7 @@ const TextbookPage = () => {
               <div className="bg-white p-6 rounded-xl shadow-sm">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Navigation</h2>
                 <div className="space-y-3">
-                  <Link to="/docs/category/textbook-chapters" className="block w-full text-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition">
+                  <Link to="/docs/intro" className="block w-full text-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition">
                     Browse All Chapters
                   </Link>
                   <Link to="/modules" className="block w-full text-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">

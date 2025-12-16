@@ -76,7 +76,7 @@ const config: Config = {
         {to: '/', label: 'Home', position: 'left'},
         {to: '/docs/intro', label: 'Learn', position: 'left'},
         {to: '/docs/intro', label: 'Free', position: 'left'},  // Pointing to free content intro
-        {to: '/docs/category/textbook-chapters', label: 'Labs', position: 'left'},  // Link to practical labs
+        {to: '/docs/intro', label: 'Labs', position: 'left'},  // Link to practical labs - changed from textbook-chapters
         {to: '/profile', label: 'Personalize', position: 'left'},
         {
           type: 'search',
@@ -121,8 +121,8 @@ const config: Config = {
               to: '/docs/intro',
             },
             {
-              label: 'Chapters',
-              to: '/docs/category/textbook-chapters',
+              label: 'Modules',
+              to: '/docs/intro',
             },
           ],
         },
@@ -139,7 +139,7 @@ const config: Config = {
             },
             {
               label: 'Learning Materials',
-              to: '/docs/category/textbook-chapters',
+              to: '/docs/intro',
             },
           ],
         },
