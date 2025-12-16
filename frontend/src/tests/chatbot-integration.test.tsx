@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import App from '../App'; // Assuming we have an App component
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import ChatbotButton from '../components/ChatbotButton';
 import AuthModal from '../components/AuthModal';

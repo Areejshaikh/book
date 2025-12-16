@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ReadingTimeEstimate } from '../ReadingTimeEstimate';
+import { addIdsToHeadings } from '../utils/headingProcessor';
 
 interface ChapterContentProps {
   content: string;
@@ -99,7 +100,7 @@ export const ChapterContent: React.FC<ChapterContentProps> = ({
       <div className="prose prose-lg max-w-none">
         <div
           className="chapter-content"
-          dangerouslySetInnerHTML={{ __html: content }}
+          dangerouslySetInnerHTML={{ __html: addIdsToHeadings(content) }}
         />
       </div>
 

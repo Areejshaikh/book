@@ -10,10 +10,10 @@ const TextbookPage = () => {
     title: "Foundations of Physical AI",
     number: 1,
     content: `
-      <h2>Introduction to Physical AI</h2>
+      <h2 id="introduction">Introduction to Physical AI</h2>
       <p>Physical AI represents a paradigm shift in artificial intelligence, emphasizing the integration of AI with the physical world through embodied systems. Unlike traditional AI that operates primarily in digital spaces, Physical AI leverages the physical properties of systems to achieve intelligent behavior.</p>
 
-      <h3>Defining Physical AI</h3>
+      <h3 id="defining-physical-ai">Defining Physical AI</h3>
       <p>Physical AI encompasses approaches where intelligence emerges from the interaction between computational algorithms and physical systems. This includes:</p>
       <ul>
         <li>Embodied cognition principles</li>
@@ -22,14 +22,14 @@ const TextbookPage = () => {
         <li>Sensorimotor learning</li>
       </ul>
 
-      <h3>Key Principles</h3>
-      <h4>Embodiment</h4>
+      <h3 id="key-principles">Key Principles</h3>
+      <h4 id="embodiment">Embodiment</h4>
       <p>The body is not merely an output device for AI but an integral part of intelligence. The physical form influences cognitive processes and learning capabilities.</p>
 
-      <h4>Morphological Computation</h4>
+      <h4 id="morphological-computation">Morphological Computation</h4>
       <p>Physical properties of the body (e.g., elasticity, compliance, dynamics) contribute to computation, reducing the burden on central processing units.</p>
 
-      <h4>Environmental Interaction</h4>
+      <h4 id="environmental-interaction">Environmental Interaction</h4>
       <p>Intelligence arises through continuous interaction with the environment, not just from internal processing.</p>
     `,
     duration: "Approx. 8 minutes reading",
