@@ -4,6 +4,9 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+// Get environment variables and make them available to the client
+const BACKEND_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
+
 const config: Config = {
   title: 'Physical AI & Humanoid Robotics Textbook',
   tagline: 'Interactive Learning Platform',
@@ -164,11 +167,18 @@ const config: Config = {
 
   // Scripts to include in the HTML template
   scripts: [
-    {
-      src: '/backend-url.js',
-      defer: true,
-    },
   ],
+
+  // Make environment variables available to the client
+  clientModules: [
+    require.resolve('./src/client-modules/env.js'),
+  ],
+
+  // Custom fields to bypass Docusaurus config validation
+  customFields: {
+    REACT_APP_API_BASE_URL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000'
+  },
+
 };
 
 export default config;

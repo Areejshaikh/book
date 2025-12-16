@@ -4,7 +4,7 @@
   padding: 2rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
-  background-color: #f9fafb;
+  background-color: #e3f2fd;
   min-height: calc(100vh - 60px);
 }
 
@@ -16,13 +16,13 @@
 .pageTitle {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1f2937;
+  color: #0d47a1;
   margin-bottom: 1rem;
 }
 
 .pageSubtitle {
   font-size: 1.25rem;
-  color: #6b7280;
+  color: #0d47a1;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -34,7 +34,7 @@
 }
 
 .moduleCard {
-  background-color: white;
+  background-color: #f0f8ff;
   border-radius: 0.75rem;
   padding: 2rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -62,7 +62,7 @@
 .moduleTitle {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #1f2937;
+  color: #0d47a1;
   margin: 0;
 }
 
@@ -75,8 +75,8 @@
 
 .topicItem {
   padding: 0.25rem 0;
-  color: #4b5563;
-  border-bottom: 1px solid #e5e7eb;
+  color: #0d47a1;
+  border-bottom: 1px solid #b3e5fc;
 }
 
 .topicItem:last-child {
@@ -84,8 +84,8 @@
 }
 
 .durationBadge {
-  background-color: #d1fae5;
-  color: #065f46;
+  background-color: #b2ebf2;
+  color: #006064;
   display: inline-block;
   padding: 0.5rem 1rem;
   border-radius: 9999px;
@@ -100,11 +100,11 @@
   .modulesPage {
     padding: 3rem 2rem;
   }
-  
+
   .pageTitle {
     font-size: 3rem;
   }
-  
+
   .pageSubtitle {
     font-size: 1.5rem;
   }

@@ -23,10 +23,10 @@
 }
 
 .moduleCard {
-  background-color: #f9fafb; /* Gray-50 */
+  background-color: #f0f8ff; /* Light blue-50 */
   border-radius: 0.75rem; /* rounded-xl */
   padding: 2rem;
-  border: 1px solid #e5e7eb; /* border-gray-200 */
+  border: 1px solid #b3e5fc; /* border-blue-200 */
   transition: box-shadow 0.3s;
 }
 
@@ -47,7 +47,7 @@
 .moduleTitle {
   font-size: 1.25rem; /* text-lg */
   font-weight: bold;
-  color: #111827; /* gray-900 */
+  color: #0d47a1; /* blue-800 */
   margin-bottom: 1rem;
 }
 
@@ -55,12 +55,12 @@
   list-style: none;
   padding: 0;
   margin: 0 0 1.5rem 0;
-  color: #4b5563; /* gray-600 */
+  color: #0d47a1; /* blue-800 */
 }
 
 .topicItem {
   padding: 0.25rem 0;
-  border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+  border-bottom: 1px solid #b3e5fc; /* border-blue-200 */
 }
 
 .topicItem:last-child {
@@ -68,8 +68,8 @@
 }
 
 .durationBadge {
-  background-color: #dbeafe; /* blue-100 */
-  color: #1e40af; /* blue-800 */
+  background-color: #b3e5fc; /* blue-200 */
+  color: #0d47a1; /* blue-800 */
   display: inline-block;
   padding: 0.5rem 1rem;
   border-radius: 9999px; /* rounded-full */

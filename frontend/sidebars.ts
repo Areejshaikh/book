@@ -18,25 +18,68 @@ const sidebars: SidebarsConfig = {
     'intro',
     {
       type: 'category',
-      label: 'Textbook Chapters',
+      label: 'Textbook Modules',
       link: {
         type: 'generated-index',
-        description: 'Complete textbook on Physical AI & Humanoid Robotics',
+        description: 'Complete textbook on Physical AI & Humanoid Robotics organized into 4 comprehensive modules',
       },
       items: [
-        'chapters/intro',
-        'chapters/foundations-of-physical-ai',
-        'chapters/humanoid-robot-design-principles',
-        'chapters/locomotion-and-bipedal-walking',
-        'chapters/manipulation-and-grasping',
-        'chapters/perception-and-sensing',
-        'chapters/planning-and-decision-making',
-        'chapters/control-systems-and-dynamics',
-        'chapters/learning-and-adaptation',
-        'chapters/human-robot-interaction',
-        'chapters/applications-and-use-cases',
-        'chapters/ethics-and-society',
-        'chapters/future-directions-and-conclusions',
+        {
+          type: 'category',
+          label: 'Module 1: Foundations & Design',
+          link: {
+            type: 'doc',
+            id: 'modules/module-1-intro',
+          },
+          items: [
+            'modules/module-1-intro',
+            'chapters/foundations-of-physical-ai', // Chapter 1
+            'chapters/humanoid-robot-design-principles', // Chapter 2
+            'chapters/locomotion-and-bipedal-walking', // Chapter 3
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Module 2: Perception & Control',
+          link: {
+            type: 'doc',
+            id: 'modules/module-2-intro',
+          },
+          items: [
+            'modules/module-2-intro',
+            'chapters/manipulation-and-grasping', // Chapter 4
+            'chapters/perception-and-sensing', // Chapter 5
+            'chapters/planning-and-decision-making', // Chapter 6
+            'chapters/control-systems-and-dynamics', // Chapter 7
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Module 3: Learning & Interaction',
+          link: {
+            type: 'doc',
+            id: 'modules/module-3-intro',
+          },
+          items: [
+            'modules/module-3-intro',
+            'chapters/learning-and-adaptation', // Chapter 8
+            'chapters/human-robot-interaction', // Chapter 9
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Module 4: Applications & Future',
+          link: {
+            type: 'doc',
+            id: 'modules/module-4-intro',
+          },
+          items: [
+            'modules/module-4-intro',
+            'chapters/applications-and-use-cases', // Chapter 10
+            'chapters/ethics-and-society', // Chapter 11
+            'chapters/future-directions-and-conclusions', // Chapter 12
+          ],
+        },
       ],
     }
   ],

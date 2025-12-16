@@ -1,7 +1,7 @@
 /* Hero Section Styles */
 .heroSection {
   padding: 4rem 0;
-  background: linear-gradient(to right, #e0f2fe 0%, #e0e7ff 100%);
+  background: linear-gradient(to right, #e3f2fd 0%, #b3e5fc 100%);
   text-align: center;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .getStartedBtn {
-  background-color: #3b82f6;
+  background-color: #2196F3;
   color: white;
   font-weight: bold;
   font-size: 1.125rem;
@@ -70,7 +70,7 @@
 }
 
 .getStartedBtn:hover {
-  background-color: #2563eb;
+  background-color: #0d8aee;
   transform: scale(1.05);
 }
 
@@ -80,7 +80,7 @@
   font-weight: bold;
   font-size: 1.125rem;
   padding: 0.75rem 2rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #b3e5fc;
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: all 0.2s;
@@ -89,7 +89,7 @@
 }
 
 .browseContentBtn:hover {
-  background-color: #f3f4f6;
+  background-color: #e3f2fd;
   transform: scale(1.05);
 }
 
@@ -101,7 +101,7 @@
 }
 
 .techPill {
-  background-color: #e5e7eb;
+  background-color: #b3e5fc;
   color: #1f2937;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;

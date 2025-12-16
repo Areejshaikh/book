@@ -6,7 +6,7 @@
 
 .homePage {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #f9fafb 0%, #ffffff 100%);
+  background: linear-gradient(to bottom, #e3f2fd 0%, #ffffff 100%);
 }
 
 /**
@@ -34,7 +34,7 @@
 .navLogo {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #1f2937;
+  color: #0d47a1;
 }
 
 .navMenu {
@@ -44,14 +44,14 @@
 }
 
 .navLink {
-  color: #374151;
+  color: #0d47a1;
   font-weight: 500;
   text-decoration: none;
   transition: color 0.2s;
 }
 
 .navLink:hover {
-  color: #3b82f6;
+  color: #2196f3;
 }
 
 .searchContainer {
@@ -59,7 +59,7 @@
 }
 
 .searchInput {
-  border: 1px solid #d1d5db;
+  border: 1px solid #b3e5fc;
   border-radius: 0.5rem;
   padding: 0.25rem 0.75rem;
   font-size: 0.875rem;
@@ -68,18 +68,18 @@
 }
 
 .searchInput:focus {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid #2196f3;
   outline-offset: 2px;
 }
 
 .signinButton {
-  color: #374151;
+  color: #0d47a1;
   font-weight: 500;
   text-decoration: none;
 }
 
 .getStartedButton {
-  background-color: #3b82f6;
+  background-color: #2196f3;
   color: white;
   font-weight: bold;
   padding: 0.5rem 1rem;
@@ -89,7 +89,7 @@
 }
 
 .getStartedButton:hover {
-  background-color: #2563eb;
+  background-color: #0d8aee;
 }
 
 /**
@@ -98,7 +98,7 @@
 
 .heroSection {
   padding: 4rem 0;
-  background: linear-gradient(to right, #e0f2fe 0%, #e0e7ff 100%);
+  background: linear-gradient(to right, #e3f2fd 0%, #b3e5fc 100%);
   text-align: center;
 }
 
@@ -111,7 +111,7 @@
 .platformLabel {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #4b5563;
+  color: #0d47a1;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 1rem;
@@ -120,7 +120,7 @@
 .heroTitle {
   font-size: 3rem;
   font-weight: 800;
-  color: #111827;
+  color: #0d47a1;
   line-height: 1.1;
   margin-bottom: 2.5rem;
 }
@@ -133,7 +133,7 @@
 
 .heroSubtitle {
   font-size: 1.25rem;
-  color: #4b5563;
+  color: #0d47a1;
   max-width: 48rem;
   margin: 0 auto 3rem;
 }
@@ -154,7 +154,7 @@
 }
 
 .getStartedBtn {
-  background-color: #3b82f6;
+  background-color: #2196f3;
   color: white;
   font-weight: bold;
   font-size: 1.125rem;
@@ -167,17 +167,17 @@
 }
 
 .getStartedBtn:hover {
-  background-color: #2563eb;
+  background-color: #0d8aee;
   transform: scale(1.05);
 }
 
 .browseContentBtn {
   background-color: white;
-  color: #1f2937;
+  color: #0d47a1;
   font-weight: bold;
   font-size: 1.125rem;
   padding: 0.75rem 2rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #b3e5fc;
   border-radius: 0.5rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: all 0.2s;
@@ -186,7 +186,7 @@
 }
 
 .browseContentBtn:hover {
-  background-color: #f3f4f6;
+  background-color: #e3f2fd;
   transform: scale(1.05);
 }
 
@@ -198,8 +198,8 @@
 }
 
 .techPill {
-  background-color: #e5e7eb;
-  color: #1f2937;
+  background-color: #b3e5fc;
+  color: #0d47a1;
   padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.875rem;
@@ -211,7 +211,7 @@
 
 .modulesSection {
   padding: 5rem 0;
-  background-color: white;
+  background-color: #e3f2fd;
 }
 
 .modulesContainer {
@@ -233,10 +233,10 @@
 }
 
 .moduleCard {
-  background-color: #f9fafb;
+  background-color: #f0f8ff;
   border-radius: 0.75rem;
   padding: 2rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #b3e5fc;
   transition: box-shadow 0.3s;
 }
 
@@ -257,12 +257,12 @@
 .moduleContent h3 {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #111827;
+  color: #0d47a1;
   margin-bottom: 1rem;
 }
 
 .moduleContent ul {
-  color: #4b5563;
+  color: #0d47a1;
   margin-bottom: 1rem;
 }
 
@@ -273,7 +273,7 @@
 .durationBadge {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #2563eb;
+  color: #0d8aee;
 }
 
 /**
@@ -282,7 +282,7 @@
 
 .whyMattersSection {
   padding: 5rem 0;
-  background-color: #f9fafb;
+  background-color: #f0f8ff;
 }
 
 .whyMattersContainer {
@@ -294,14 +294,14 @@
 .sectionTitle {
   font-size: 2rem;
   font-weight: bold;
-  color: #111827;
+  color: #0d47a1;
   text-align: center;
   margin-bottom: 1rem;
 }
 
 .sectionSubtitle {
   font-size: 1.25rem;
-  color: #4b5563;
+  color: #0d47a1;
   text-align: center;
   max-width: 48rem;
   margin: 0 auto 4rem;
@@ -328,10 +328,10 @@
 }
 
 .infoCard {
-  background-color: white;
+  background-color: #e3f2fd;
   border-radius: 0.75rem;
   padding: 2rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #b3e5fc;
   text-align: center;
   transition: box-shadow 0.3s;
 }
@@ -348,12 +348,12 @@
 .infoCard h3 {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #111827;
+  color: #0d47a1;
   margin-bottom: 0.5rem;
 }
 
 .infoCard p {
-  color: #4b5563;
+  color: #0d47a1;
 }
 
 /**
@@ -362,7 +362,7 @@
 
 .startSection {
   padding: 5rem 0;
-  background-color: white;
+  background-color: #e3f2fd;
 }
 
 .startContainer {
@@ -386,17 +386,17 @@
 }
 
 .comparisonCard {
-  background-color: #f9fafb;
+  background-color: #f0f8ff;
   border-radius: 0.75rem;
   padding: 2rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #b3e5fc;
   text-align: center;
 }
 
 .comparisonCard h3 {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #111827;
+  color: #0d47a1;
   margin-bottom: 1rem;
 }
 
@@ -421,66 +421,66 @@
 }
 
 .tag.highPerformance {
-  background-color: #dbeafe;
-  color: #1d4ed8;
+  background-color: #b3e5fc;
+  color: #0d47a1;
 }
 
 .tag.hardwareIncluded {
-  background-color: #dcfce7;
-  color: #166534;
+  background-color: #b2ebf2;
+  color: #006064;
 }
 
 .tag.maxFlexibility {
-  background-color: #ede9fe;
-  color: #6d28d9;
+  background-color: #b39ddb;
+  color: #4527a0;
 }
 
 .tag.costEffective {
-  background-color: #fef9c3;
-  color: #854d0e;
+  background-color: #fff9c4;
+  color: #f57f17;
 }
 
 .tag.scalable {
-  background-color: #dcfce7;
-  color: #166534;
+  background-color: #b2ebf2;
+  color: #006064;
 }
 
 .tag.hybridApproach {
-  background-color: #ede9fe;
-  color: #6d28d9;
+  background-color: #b39ddb;
+  color: #4527a0;
 }
 
 .tag.budgetOption {
-  background-color: #fee2e2;
-  color: #b91c1c;
+  background-color: #ffcdd2;
+  color: #c62828;
 }
 
 .tag.quickStart {
-  background-color: #dbeafe;
-  color: #1d4ed8;
+  background-color: #b3e5fc;
+  color: #0d47a1;
 }
 
 .tag.softwareFocus {
-  background-color: #ede9fe;
-  color: #6d28d9;
+  background-color: #b39ddb;
+  color: #4527a0;
 }
 
 .priceTag {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #111827;
+  color: #0d47a1;
   margin: 0.25rem 0;
 }
 
 .priceDescription {
-  color: #6b7280;
+  color: #0d47a1;
   font-size: 0.875rem;
   margin-bottom: 1rem;
 }
 
 .comparisonCard ul {
   text-align: left;
-  color: #4b5563;
+  color: #0d47a1;
 }
 
 /**
@@ -489,7 +489,7 @@
 
 .finalCtaSection {
   padding: 5rem 0;
-  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  background: linear-gradient(to right, #2196f3, #21cbf3);
   color: white;
   text-align: center;
 }
@@ -521,7 +521,7 @@
 
 .finalCtaButton {
   background-color: white;
-  color: #6366f1;
+  color: #2196f3;
   font-weight: bold;
   font-size: 1.125rem;
   padding: 1rem 2rem;
@@ -532,7 +532,7 @@
 }
 
 .finalCtaButton:hover {
-  background-color: #f3f4f6;
+  background-color: #e3f2fd;
 }
 
 /**
@@ -540,7 +540,7 @@
  */
 
 .footer {
-  background-color: #111827;
+  background-color: #0d47a1;
   color: white;
   padding: 3rem 0;
 }
@@ -576,7 +576,7 @@
 }
 
 .footerColumn h4 {
-  color: #d1d5db;
+  color: #b3d9ff;
 }
 
 .footerColumn ul {
@@ -589,7 +589,7 @@
 }
 
 .footerLink {
-  color: #9ca3af;
+  color: #90caf9;
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -599,9 +599,9 @@
 }
 
 .copyright {
-  border-top: 1px solid #374151;
+  border-top: 1px solid #0c7cd5;
   padding-top: 2rem;
   text-align: center;
-  color: #9ca3af;
+  color: #90caf9;
   font-size: 0.875rem;
 }

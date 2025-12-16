@@ -8,7 +8,7 @@ Welcome to the comprehensive textbook on Physical AI & Humanoid Robotics. This i
 
 ## About This Textbook
 
-This textbook covers the essential topics of Physical AI and Humanoid Robotics in 12 comprehensive chapters. Each chapter is designed to be read efficiently while providing deep insights into the field.
+This textbook covers the essential topics of Physical AI and Humanoid Robotics organized into 4 comprehensive modules. Each module contains related chapters designed to be read efficiently while providing deep insights into the field.
 
 ## What You'll Learn
 

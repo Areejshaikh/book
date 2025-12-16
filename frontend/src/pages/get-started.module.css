@@ -6,7 +6,7 @@
   justify-content: center;
   min-height: 80vh;
   padding: 2rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2196f3 0%, #21cbf3 100%);
   color: white;
 }
 
@@ -38,7 +38,7 @@
 
 .primaryButton {
   background-color: white;
-  color: #667eea;
+  color: #2196f3;
   font-size: 1.25rem;
   font-weight: 700;
   padding: 1rem 2.5rem;
@@ -50,7 +50,7 @@
 }
 
 .primaryButton:hover {
-  background-color: #f0f0f0;
+  background-color: #f0f8ff;
   transform: translateY(-3px);
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.25);
 }
@@ -69,7 +69,7 @@
 }
 
 .secondaryButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(33, 150, 243, 0.2);
   transform: translateY(-2px);
 }
 
@@ -78,15 +78,15 @@
   .getStartedPage {
     padding: 3rem 2rem;
   }
-  
+
   .headline {
     font-size: 4rem;
   }
-  
+
   .subheadline {
     font-size: 1.75rem;
   }
-  
+
   .ctaContainer {
     flex-direction: row;
     justify-content: center;

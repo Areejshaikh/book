@@ -1,7 +1,7 @@
 /* Final CTA Section Styles */
 .finalCtaSection {
   padding: 5rem 0;
-  background: linear-gradient(to right, #6366f1, #8b5cf6); /* indigo-500 to purple-600 */
+  background: linear-gradient(to right, #2196F3, #21CBF3); /* blue-500 to cyan-500 */
   color: white;
   text-align: center;
 }
@@ -33,7 +33,7 @@
 
 .ctaButton {
   background-color: white;
-  color: #6366f1; /* indigo-600 */
+  color: #2196F3; /* blue-600 */
   font-weight: bold;
   font-size: 1.125rem;
   padding: 1rem 2rem;
@@ -44,5 +44,5 @@
 }
 
 .ctaButton:hover {
-  background-color: #f3f4f6; /* gray-100 */
+  background-color: #E3F2FD; /* blue-50 */
 }

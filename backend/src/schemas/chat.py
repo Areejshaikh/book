@@ -3,6 +3,10 @@ from typing import List, Optional
 from datetime import datetime
 
 
+class ChatInput(BaseModel):
+    query: str
+
+
 class ChatRequest(BaseModel):
     user_id: int
     query: str

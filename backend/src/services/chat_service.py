@@ -10,20 +10,20 @@ class ChatService:
         self.rag_service = RAGService()
         self.translation_service = TranslationService()
 
-    def process_query(self, user_id: int, query: str) -> str:
+    async def process_query(self, user_id: int, query: str) -> str:
         """
         Process a user query using RAG (Retrieval Augmented Generation) based on textbook content
         """
         try:
             # Retrieve relevant textbook content based on the query
             context = self.rag_service.retrieve_context(query)
-            
+
             # Generate a response based on the context and user query
             response = self.rag_service.generate_response(query, context)
-            
+
             # Save the interaction to the database
             self._save_interaction(user_id, query, response, context)
-            
+
             return response
         except Exception as e:
             # Fallback behavior when external AI service is unavailable (FR-012)
@@ -31,7 +31,7 @@ class ChatService:
             self._save_interaction(user_id, query, fallback_response, "")
             return fallback_response
 
-    def get_chat_history(self, user_id: int) -> List[dict]:
+    async def get_chat_history(self, user_id: int) -> List[dict]:
         """
         Retrieve chat history for a specific user
         """
