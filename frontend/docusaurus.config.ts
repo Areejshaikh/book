@@ -13,7 +13,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://areejshaikh.github.io',  // GitHub Pages base URL
+  url: 'https://areejshaikh.github.io/book/',  // GitHub Pages base URL
   // Set the /<baseUrl>/ pathname under which your site is served
   baseUrl: '/book/',  // For GitHub Pages project site (https://username.github.io/repo-name/)
   // GitHub pages deployment config
