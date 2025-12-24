@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text
-from backend.src.database import Base
+from src.database import Base
 
 
 class TextbookChapter(Base):

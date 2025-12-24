@@ -1,7 +1,7 @@
 from typing import List, Optional
-from backend.src.database import SessionLocal
-from backend.src.models.user import UserProfile
-from backend.src.models.chapter import TextbookChapter as Chapter
+from src.database import SessionLocal
+from src.models.user import UserProfile
+from src.models.chapter import TextbookChapter as Chapter
 
 
 class PersonalizationService:

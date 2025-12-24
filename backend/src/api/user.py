@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
-from backend.src.database import SessionLocal
-from backend.src.models.user import UserProfile
+from src.database import SessionLocal
+from src.models.user import UserProfile
 
 
 router = APIRouter()

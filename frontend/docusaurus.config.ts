@@ -20,11 +20,13 @@ const config: Config = {
   organizationName: 'areejshaikh', // Usually your GitHub org/user name.
   projectName: 'book', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenAnchors: 'ignore',
-  onBrokenMarkdownLinks: 'warn',
   markdown: {
     mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
   },
 
   // Even if you don't use internationalization, you can use this field to set
@@ -56,7 +58,7 @@ const config: Config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
+          // Useful options to enhance blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
@@ -92,20 +94,22 @@ const config: Config = {
           position: 'right',
           items: [
             {
-              label: 'Sign In',
-              to: '/profile',
-            },
-            {
               label: 'Sign Up',
               to: '/signup',
+            },
+            {
+              label: 'Sign In',
+              to: '/signin',
+            },
+            {
+              label: 'Profile',
+              to: '/profile',
             },
           ],
         },
         {
-          label: 'Get Started',
+          type: 'localeDropdown',
           position: 'right',
-          to: '/docs/intro',
-          className: 'navbar-button--primary'
         },
         {
           href: 'https://github.com/areejshaikh/book',

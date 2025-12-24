@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
 from sqlalchemy.sql import func
-from backend.src.database import Base
+from src.database import Base
 
 
 class ContentVersion(Base):

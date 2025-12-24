@@ -7,11 +7,6 @@ class ChatInput(BaseModel):
     query: str
 
 
-class ChatRequest(BaseModel):
-    user_id: int
-    query: str
-
-
 class ChatResponse(BaseModel):
     response: str
     timestamp: Optional[datetime] = None

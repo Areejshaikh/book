@@ -1,128 +1,153 @@
-# Embedding Pipeline for Docusaurus URLs
+# RAG Chatbot for Physical AI & Humanoid Robotics Textbook
 
-This project implements an embedding pipeline that crawls Docusaurus website URLs, extracts and cleans text content, chunks it into 500-1000 token segments, generates embeddings using Cohere multilingual-v3 model, and stores them in Qdrant Cloud with metadata.
+This is a RAG (Retrieval-Augmented Generation) chatbot that answers questions based only on the Physical AI & Humanoid Robotics textbook content.
 
-## Prerequisites
+## Features
 
-- Python 3.11+
-- Pip package manager
-- Cohere API key
-- Qdrant Cloud account and API key
-
-## Setup
-
-1. Clone the repository
-2. Navigate to the backend directory: `cd backend`
-3. Create a virtual environment: `python -m venv venv`
-4. Activate the virtual environment:
-   - On Linux/Mac: `source venv/bin/activate`
-   - On Windows: `venv\Scripts\activate`
-5. Install dependencies: `pip install -r requirements.txt`
-6. Create a `.env` file based on `.env.example` and add your API keys
-
-## Usage
-
-### Running the Main Pipeline
-
-To run the complete pipeline:
-```bash
-python -m src.embedding_pipeline.main
-```
-
-### Running the Example Script
-
-To run the example:
-```bash
-python examples/basic_usage.py
-```
-
-### Running Tests
-
-To run the test suite:
-```bash
-pytest tests/
-```
-
-### Testing Retrieval
-
-To test retrieval functionality:
-```bash
-python test_retrieval.py
-```
+- RAG-based question answering using textbook content
+- Strict book-only answering (no hallucinations)
+- Authentication required for chat access
+- Vector database for efficient content retrieval
+- Detailed logging and error handling
+- Deployable to Hugging Face Spaces
 
 ## Architecture
 
-The pipeline follows these steps:
-1. `url_fetcher.py` - Fetches all URLs to process
-2. `text_cleaner.py` - Extracts clean text from each URL
-3. `chunker.py` - Breaks text into 500-1000 token segments
-4. `embedder.py` - Generates embeddings using Cohere
-5. `vector_store.py` - Stores embeddings in Qdrant with metadata
+- **Backend**: FastAPI server
+- **Vector Database**: Qdrant
+- **LLM Integration**: OpenAI GPT, Google Gemini, or Cohere
+- **Frontend**: Docusaurus-based documentation site
+- **Database**: PostgreSQL (Neon)
 
-## Configuration
+## Setup
 
-- URL list: Defined in environment variable `SOURCE_URLS` in your `.env` file
-- Chunk size: Configured in `chunker.py` (500-1000 token range)
-- Qdrant collection: Named `rag_embeddings` by default
-- Logging: Set to INFO level by default
+### 1. Clone the repository
 
-### Environment Variables
+```bash
+git clone https://huggingface.co/spaces/areejzaheer/bookBackend
+cd bookBackend
+```
+
+### 2. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Configure environment variables
 
 Create a `.env` file with the following variables:
-```
-COHERE_API_KEY=your_cohere_api_key_here
-QDRANT_API_KEY=your_qdrant_api_key_here
-QDRANT_URL=your_qdrant_cluster_url_here
-SOURCE_URLS=https://areejshaikh.github.io/book/,https://areejshaikh.github.io/book/docs/intro
-```
 
-## Project Structure
+```env
+# API Configuration
+API_HOST=0.0.0.0
+API_PORT=8000
 
-```
-backend/
-├── src/
-│   └── embedding_pipeline/
-│       ├── __init__.py
-│       ├── main.py
-│       ├── config.py
-│       ├── url_fetcher.py
-│       ├── text_cleaner.py
-│       ├── chunker.py
-│       ├── embedder.py
-│       ├── vector_store.py
-│       ├── models.py
-│       ├── logging_config.py
-│       └── utils.py
-├── tests/
-│   └── test_embedding_pipeline.py
-├── examples/
-│   └── basic_usage.py
-├── requirements.txt
-├── .env.example
-├── README.md
-├── test_pipeline.py
-└── test_retrieval.py
+# Security Configuration
+JWT_SECRET_KEY=your-very-secure-secret-key-here
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+
+# LLM Provider Configuration (Choose one)
+# Options: openai, gemini (default: openai)
+LLM_PROVIDER=openai
+
+# AI Service Configuration (Choose one or more)
+OPENAI_API_KEY=your-openai-api-key-here
+GEMINI_API_KEY=your-gemini-api-key-here
+COHERE_API_KEY=your-cohere-api-key-here
+
+# Qdrant Vector Database Configuration
+QDRANT_URL=your-qdrant-url-here
+QDRANT_API_KEY=your-qdrant-api-key-here
+QDRANT_COLLECTION_NAME=textbook_content
+
+# Database Configuration
+DATABASE_URL=your-postgresql-database-url-here
 ```
 
-## Testing
+### 4. Run the application
 
-The project includes unit tests and integration tests:
+```bash
+python -m uvicorn main:app --host 0.0.0.0 --port 8000
+```
 
-1. Run all tests: `pytest tests/`
-2. Run specific test file: `python -m pytest tests/test_embedding_pipeline.py -v`
-3. Test pipeline functionality: `python test_pipeline.py`
-4. Test retrieval functionality: `python test_retrieval.py`
+## API Usage
 
-## API and Models
+### Authentication
 
-The system uses several data models defined in `models.py`:
-- `DocumentChunk`: Represents a segment of content extracted from a URL
-- `EmbeddingVector`: Numerical representation of text content
-- `URLProcessingRecord`: Record of processing status for each URL
+First register/login to get an access token:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "password123",
+    "programming_level": "beginner",
+    "ai_experience": "none",
+    "gpu_available": false,
+    "ram_size": "8GB"
+  }'
+```
+
+### Chat with the bot
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/v1/chat/ \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+  -d '{
+    "query": "What are the principles of embodied cognition?"
+  }'
+```
+
+## Frontend Integration
+
+The frontend is built with Docusaurus and expects:
+
+- Backend API at `http://localhost:8000`
+- Chat endpoint: `POST /api/v1/chat/`
+- Authentication: Bearer token in Authorization header
+
+## Deployment
+
+### Hugging Face Spaces
+
+To deploy to Hugging Face Spaces:
+
+1. Create a Space with Docker or Python SDK template
+2. Add all files from the backend directory
+3. Ensure `requirements.txt`, `Dockerfile`, and `space.yaml` are present
+4. Set environment variables in Space settings
+
+### Environment Variables for Production
+
+- `PORT` (set by Hugging Face, defaults to 8000)
+- `OPENAI_API_KEY` or `COHERE_API_KEY`
+- `QDRANT_URL`, `QDRANT_API_KEY`
+- `DATABASE_URL`
+- `JWT_SECRET_KEY`
+
+## Book-only Answering Guarantee
+
+The system is designed with strict safeguards:
+- Answers are generated only from retrieved textbook content
+- LLM is prompted not to use external knowledge
+- If content is not in the book, the system responds: "This information is not available in the book."
 
 ## Troubleshooting
 
-- If getting API errors: Verify your API keys in `.env`
-- If URLs aren't loading: Check if the site structure has changed
-- If embeddings aren't storing: Verify Qdrant connection details
-- Check the `logs/` directory for detailed execution logs
+- Ensure all environment variables are set
+- Verify Qdrant connection
+- Check that textbook content was loaded at startup
+- Review logs for detailed error information
+
+## Development
+
+For local development:
+
+1. Run Qdrant locally or ensure cloud connection
+2. Set up the database
+3. Load textbook content (happens automatically on startup)
+4. Start the API server

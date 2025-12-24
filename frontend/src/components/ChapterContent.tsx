@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReadingTimeEstimate } from '../ReadingTimeEstimate';
 import { addIdsToHeadings } from '../utils/headingProcessor';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translateContentBlock } from '../services/translationService';
 
 interface ChapterContentProps {
   content: string;
@@ -23,18 +25,62 @@ export const ChapterContent: React.FC<ChapterContentProps> = ({
 }) => {
   const [isPersonalized, setIsPersonalized] = useState(false);
   const [backgroundLevel, setBackgroundLevel] = useState<'beginner' | 'intermediate' | 'advanced'>('intermediate');
+  const [translatedContent, setTranslatedContent] = useState<string>(content);
+  const [translatedTitle, setTranslatedTitle] = useState<string>(chapterTitle);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const { currentLanguage } = useLanguage();
+
+  const { t } = useLanguage;
 
   // Function to simulate content personalization
   const togglePersonalization = () => {
     setIsPersonalized(!isPersonalized);
   };
 
+  // Handle translation when language changes
+  useEffect(() => {
+    const handleTranslation = async () => {
+      if (currentLanguage === 'en') {
+        // Switch back to original content
+        setTranslatedContent(content);
+        setTranslatedTitle(chapterTitle);
+      } else {
+        // Translate content to Urdu
+        setIsTranslating(true);
+        try {
+          // Translate content
+          const translatedContentResult = await translateContentBlock(content, currentLanguage);
+          setTranslatedContent(translatedContentResult);
+
+          // Translate title
+          const translatedTitleResult = await translateContentBlock(chapterTitle, currentLanguage);
+          setTranslatedTitle(translatedTitleResult);
+        } catch (error) {
+          console.error('Translation error:', error);
+          // Fallback to original content if translation fails
+          setTranslatedContent(content);
+          setTranslatedTitle(chapterTitle);
+        } finally {
+          setIsTranslating(false);
+        }
+      }
+    };
+
+    handleTranslation();
+  }, [currentLanguage, content, chapterTitle]);
+
+  // Add direction attribute based on language
+  const contentDirection = currentLanguage === 'ur' ? 'rtl' : 'ltr';
+  const contentLang = currentLanguage === 'ur' ? 'ur' : 'en';
+
   return (
-    <div className="chapter-card bg-white rounded-xl shadow-sm p-6">
+    <div className="chapter-card bg-white rounded-xl shadow-sm p-6" dir={contentDirection}>
       <div className="flex justify-between items-start mb-6">
         <div>
           {chapterNumber && <div className="text-sm font-semibold text-blue-600">CHAPTER {chapterNumber}</div>}
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mt-1">{chapterTitle}</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mt-1" lang={contentLang}>
+            {isTranslating ? chapterTitle : translatedTitle}
+          </h1>
         </div>
         <div className="flex space-x-2">
           <select
@@ -83,7 +129,7 @@ export const ChapterContent: React.FC<ChapterContentProps> = ({
       )}
 
       <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
-        {showReadingTime && <ReadingTimeEstimate content={content} />}
+        {showReadingTime && <ReadingTimeEstimate content={currentLanguage === 'en' ? content : translatedContent} />}
         <div className="flex space-x-2 ml-auto">
           <button className="text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1 rounded transition flex items-center">
             <span className="mr-1">📤</span> Share
@@ -97,10 +143,11 @@ export const ChapterContent: React.FC<ChapterContentProps> = ({
         </div>
       </div>
 
-      <div className="prose prose-lg max-w-none">
+      <div className={`prose prose-lg max-w-none ${currentLanguage === 'ur' ? 'rtl' : ''}`} dir={contentDirection}>
         <div
           className="chapter-content"
-          dangerouslySetInnerHTML={{ __html: addIdsToHeadings(content) }}
+          lang={contentLang}
+          dangerouslySetInnerHTML={{ __html: addIdsToHeadings(currentLanguage === 'en' ? content : translatedContent) }}
         />
       </div>
 

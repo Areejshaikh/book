@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChatMessage, UserMessage, AssistantMessage } from '../ChatMessage';
+import { UserMessage, AssistantMessage } from '../ChatMessage';
+import { chatAPI } from '../chatAPI'; // Use the correct import for chat API
 
 interface RAGChatComponentProps {
   chapterId?: number;
@@ -17,14 +18,8 @@ interface ChatInteraction {
 export const RAGChatComponent: React.FC<RAGChatComponentProps> = ({ chapterId, onQuerySubmit }) => {
   const [inputValue, setInputValue] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [chatHistory, setChatHistory] = useState<ChatInteraction[]>([
-    {
-      id: 1,
-      query: "Welcome! I'm your AI assistant for the Physical AI textbook. Ask me anything about the content!",
-      response: "Hello! I'm here to help you understand concepts from the Physical AI and Robotics textbook. Feel free to ask questions about any topic covered in the course.",
-      timestamp: new Date(),
-    }
-  ]);
+  // Start with an empty chat history initially
+  const [chatHistory, setChatHistory] = useState<ChatInteraction[]>([]);
   const messagesEndRef = useRef<null | HTMLDivElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,21 +39,14 @@ export const RAGChatComponent: React.FC<RAGChatComponentProps> = ({ chapterId, o
     setIsLoading(true);
 
     try {
-      // In a real implementation, this would call the backend API to process the query
-      // This simulates calling the RAG backend
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // Simulated response with textbook-specific content
-      const mockResponse = `Based on the textbook content, I can provide information about this topic. In a real implementation, this response would come from the RAG system that retrieves relevant information from the Physical AI textbook chapters. The response would be grounded in actual textbook content and include proper citations to the source material.`;
+      // Call the actual backend API to process the query
+      const response = await chatAPI.sendMessage(inputValue);
 
       const assistantMessage: ChatInteraction = {
         id: Date.now() + 1,
         query: inputValue,
-        response: mockResponse,
-        sources: [
-          "Chapter 1: Foundations of Physical AI",
-          "Module 2: Simulation Principles"
-        ],
+        response: response.response,
+        sources: response.sources || [],
         timestamp: new Date(),
       };
 
@@ -71,14 +59,14 @@ export const RAGChatComponent: React.FC<RAGChatComponentProps> = ({ chapterId, o
 
       // Notify parent component if callback is provided
       if (onQuerySubmit) {
-        onQuerySubmit(inputValue, mockResponse);
+        onQuerySubmit(inputValue, response.response);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error getting AI response:', error);
       const errorMessage: ChatInteraction = {
         id: Date.now() + 1,
         query: inputValue,
-        response: `Sorry, I'm having trouble accessing the textbook content right now. Please try again later. This AI assistant only responds based on information found in the Physical AI textbook.`,
+        response: `Sorry, I'm having trouble accessing the textbook content right now. Error: ${error.message || 'Unknown error'}. Please try again later. This AI assistant only responds based on information found in the Physical AI textbook.`,
         timestamp: new Date(),
       };
       setChatHistory(prev => [...prev, errorMessage]);
@@ -104,7 +92,7 @@ export const RAGChatComponent: React.FC<RAGChatComponentProps> = ({ chapterId, o
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 bg-gray-50 max-h-[400px]">
-        {chatHistory.length <= 1 ? (
+        {chatHistory.length === 0 ? (
           <div className="text-center text-gray-500 py-8">
             <div className="mb-4">
               <div className="inline-block p-3 bg-blue-100 rounded-full">
@@ -116,14 +104,17 @@ export const RAGChatComponent: React.FC<RAGChatComponentProps> = ({ chapterId, o
           </div>
         ) : (
           <div className="space-y-4">
-            {chatHistory.slice(1).map((interaction) => (
+            {chatHistory.map((interaction) => (
               <div key={interaction.id}>
                 <UserMessage text={interaction.query} timestamp={interaction.timestamp} />
                 {interaction.response && (
-                  <AssistantMessage 
-                    text={interaction.response} 
-                    timestamp={interaction.timestamp} 
-                    sources={interaction.sources} 
+                  <AssistantMessage
+                    text={interaction.response}
+                    timestamp={interaction.timestamp}
+                    sources={interaction.sources ? interaction.sources.map(source => ({
+                      title: source,
+                      url: '', // We might need to enhance this with actual URLs if available
+                    })) : undefined}
                   />
                 )}
               </div>
@@ -157,7 +148,7 @@ export const RAGChatComponent: React.FC<RAGChatComponentProps> = ({ chapterId, o
             Send
           </button>
         </div>
-        <p className="text-xs text-gray-500 mt-2">
+        <p className="text-xs text-gray-600 mt-2">
           AI assistant responds only from textbook content • Citations provided for all answers
         </p>
       </form>

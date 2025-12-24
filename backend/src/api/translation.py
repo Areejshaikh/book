@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from backend.src.services.translation_service import TranslationService
+from src.services.translation_service import TranslationService
 import logging
 
 

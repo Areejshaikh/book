@@ -1,12 +1,22 @@
 import hashlib
 from datetime import datetime, timedelta
 from typing import Optional
-from backend.src.database import SessionLocal
-from backend.src.models.translation_cache import TranslationCache
+import os
+import google.generativeai as genai
+from ..database import SessionLocal
+from ..models.translation_cache import TranslationCache
 
 
 class TranslationService:
     def __init__(self, cache_duration_hours: int = 24):
+        # Initialize Google Gemini API for translations
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise ValueError("GEMINI_API_KEY environment variable is required")
+
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel('gemini-pro')  # Using the Gemini Pro model for translations
+
         self.db = SessionLocal()
         self.cache_duration = timedelta(hours=cache_duration_hours)
 
@@ -17,20 +27,20 @@ class TranslationService:
         try:
             # Generate hash of source content to use as cache key
             content_hash = hashlib.sha256(f"{content}:{target_language}".encode()).hexdigest()
-            
+
             # Check if translation is already cached
             cached_translation = self._get_cached_translation(content_hash, target_language)
-            
+
             if cached_translation and cached_translation.expires_at > datetime.utcnow():
                 # Return cached translation if it's still valid
                 return cached_translation.translated_content
-            
+
             # If not cached or expired, perform translation
             translated_content = self._perform_translation(content, target_language)
-            
+
             # Cache the new translation
             self._cache_translation(content_hash, content, target_language, translated_content)
-            
+
             return translated_content
         finally:
             self.db.close()
@@ -43,7 +53,7 @@ class TranslationService:
             TranslationCache.source_content_hash == content_hash,
             TranslationCache.target_language == target_language
         ).first()
-        
+
         return translation
 
     def _cache_translation(self, content_hash: str, source_content: str, target_language: str, translated_content: str):
@@ -55,7 +65,7 @@ class TranslationService:
             TranslationCache.source_content_hash == content_hash,
             TranslationCache.target_language == target_language
         ).first()
-        
+
         if existing_cache:
             # Update existing cache entry
             existing_cache.translated_content = translated_content
@@ -71,26 +81,33 @@ class TranslationService:
                 expires_at=datetime.utcnow() + self.cache_duration
             )
             self.db.add(cache_entry)
-        
+
         self.db.commit()
 
     def _perform_translation(self, content: str, target_language: str) -> str:
         """
-        Perform the actual translation (placeholder implementation)
-        In a real implementation, this would use a translation service like Google Translate API,
-        or a library like transformers for Urdu translation
+        Perform the actual translation using Google Gemini
         """
         try:
-            # Placeholder implementation - in reality this would call a translation API
+            # Create a translation prompt for Gemini
             if target_language.lower() == "ur":
-                # This is a placeholder. In reality, you would use a proper Urdu translation service/API
-                # For now, we'll just return the original content with a note
-                return f"[TRANSLATION PLACEHOLDER] Original: {content}"
+                prompt = f"Translate the following English text to Urdu. Preserve formatting and structure as much as possible:\n\n{content}"
+            elif target_language.lower() == "en":
+                prompt = f"Translate the following text to English. Preserve formatting and structure as much as possible:\n\n{content}"
             else:
-                return content  # Return original if target language is not supported
+                # Default to translating to the target language
+                prompt = f"Translate the following English text to {target_language}. Preserve formatting and structure as much as possible:\n\n{content}"
+
+            # Generate the translation using Gemini
+            response = self.model.generate_content(prompt)
+
+            # Extract the translated content from the response
+            translated_content = response.text if response.text else content
+
+            return translated_content
         except Exception as e:
             print(f"Translation service error: {e}")
-            # Fallback behavior as required by T060
+            # Fallback behavior when Gemini translation fails
             return self._fallback_translation(content, target_language)
 
     def _fallback_translation(self, content: str, target_language: str) -> str:

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
-from backend.src.services.learning_materials_service import LearningMaterialsService
-from backend.src.models.learning_materials import LearningMaterials
+from src.services.learning_materials_service import LearningMaterialsService
+from src.models.learning_materials import LearningMaterials
 import logging
 
 

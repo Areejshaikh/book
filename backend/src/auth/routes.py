@@ -1,131 +1,170 @@
 from datetime import timedelta
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
+from jose import jwt, JWTError
+from datetime import datetime, timedelta
 
-from src.models.textbook_models import User
-from src.auth.authentication import (
-    Token,
-    authenticate_user,
-    create_access_token,
-    create_refresh_token,
-    ACCESS_TOKEN_EXPIRE_MINUTES,
-    REFRESH_TOKEN_EXPIRE_DAYS,
-    get_password_hash,
-    get_user_by_username,
-    get_current_user,
-    get_db
-)
+from ..database.session import get_session
+from ..database.models import User as DatabaseUser
+from ..auth.models import UserRegisterRequest, UserLoginRequest, Token, TokenData
+from ..auth.service import AuthService
+from ..auth.password_hash import verify_password
+from ..config.settings import settings
+
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
-class UserCreate(BaseModel):
-    username: str
-    email: str
-    password: str
 
-class TokenRefreshRequest(BaseModel):
-    refresh_token: str
+def create_access_token(data: dict, expires_delta: timedelta = None):
+    """Create a JWT access token"""
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)
+    return encoded_jwt
+
+
+def create_refresh_token(data: dict):
+    """Create a JWT refresh token"""
+    to_encode = data.copy()
+    expire = datetime.utcnow() + timedelta(days=7)
+    to_encode.update({"exp": expire, "type": "refresh"})
+    encoded_jwt = jwt.encode(to_encode, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)
+    return encoded_jwt
 
 
 @router.post("/register", response_model=Token)
-async def register(user: UserCreate, db: Session = Depends(get_db)):
-    """Register a new user."""
-    # Check if user already exists
-    existing_user = get_user_by_username(db, user.username)
-    if existing_user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Username already registered"
-        )
-
-    # Create new user
-    hashed_password = get_password_hash(user.password)
-    db_user = User(
-        username=user.username,
-        email=user.email,
-        hashed_password=hashed_password
-    )
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
+async def register(user: UserRegisterRequest, db: Session = Depends(get_session)):
+    """Register a new user with background information."""
+    auth_service = AuthService(db)
+    db_user = await auth_service.register_user(user)
 
     # Create access and refresh tokens
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
     access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
+        data={"sub": db_user.email, "user_id": str(db_user.id)},
+        expires_delta=access_token_expires
     )
-    refresh_token = create_refresh_token(data={"sub": user.username})
 
     return {
         "access_token": access_token,
-        "refresh_token": refresh_token,
+        "token_type": "bearer"
+    }
+
+
+@router.post("/signup", response_model=Token)
+async def signup(user: UserRegisterRequest, db: Session = Depends(get_session)):
+    """Register a new user with background information (alias for register)."""
+    # This is an alias for the register endpoint to match frontend expectations
+    auth_service = AuthService(db)
+    db_user = await auth_service.register_user(user)
+
+    # Create access and refresh tokens
+    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
+    access_token = create_access_token(
+        data={"sub": db_user.email, "user_id": str(db_user.id)},
+        expires_delta=access_token_expires
+    )
+
+    return {
+        "access_token": access_token,
         "token_type": "bearer"
     }
 
 
 @router.post("/login", response_model=Token)
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    """Authenticate user and return access and refresh tokens."""
-    user = authenticate_user(db, form_data.username, form_data.password)
-    if not user:
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_session)):
+    """Authenticate user and return access token."""
+    auth_service = AuthService(db)
+
+    # For login, we need to handle email/username and password
+    user = auth_service.get_user_by_email(form_data.username)  # form_data.username contains the email
+
+    if not user or not verify_password(form_data.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
+            detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
     access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
+        data={"sub": user.email, "user_id": str(user.id)},
+        expires_delta=access_token_expires
     )
-    refresh_token = create_refresh_token(data={"sub": user.username})
 
     return {
         "access_token": access_token,
-        "refresh_token": refresh_token,
         "token_type": "bearer"
     }
 
 
-@router.post("/refresh", response_model=Token)
-async def refresh_token(request: TokenRefreshRequest):
-    """Refresh the access token using the refresh token."""
-    from jose import jwt, JWTError
-    from src.auth.authentication import SECRET_KEY, ALGORITHM
+@router.post("/signin", response_model=Token)
+async def signin(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_session)):
+    """Authenticate user and return access token (alias for login)."""
+    # This is an alias for the login endpoint to match frontend expectations
+    auth_service = AuthService(db)
 
-    try:
-        payload = jwt.decode(request.refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
-        token_type: str = payload.get("type")
+    # For login, we need to handle email/username and password
+    user = auth_service.get_user_by_email(form_data.username)  # form_data.username contains the email
 
-        if username is None or token_type != "refresh":
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid refresh token"
-            )
-    except JWTError:
+    if not user or not verify_password(form_data.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid refresh token"
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Generate new tokens
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
     access_token = create_access_token(
-        data={"sub": username}, expires_delta=access_token_expires
+        data={"sub": user.email, "user_id": str(user.id)},
+        expires_delta=access_token_expires
     )
-    refresh_token = create_refresh_token(data={"sub": username})
 
     return {
         "access_token": access_token,
-        "refresh_token": refresh_token,
         "token_type": "bearer"
     }
 
 
-@router.get("/me", response_model=dict)
-async def read_users_me(current_user: User = Depends(get_current_user)):
+from fastapi.security import HTTPBearer
+
+security = HTTPBearer()
+
+@router.get("/me")
+async def read_users_me(credentials: HTTPBearer = Depends(security), db: Session = Depends(get_session)):
     """Get current user info."""
-    return {"username": current_user.username, "email": current_user.email, "id": current_user.id}
+    token = credentials.credentials
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    try:
+        payload = jwt.decode(token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm])
+        email: str = payload.get("sub")
+        if email is None:
+            raise credentials_exception
+        token_data = TokenData(username=email)
+    except JWTError:
+        raise credentials_exception
+
+    auth_service = AuthService(db)
+    user = auth_service.get_user_by_email(token_data.username)
+    if user is None:
+        raise credentials_exception
+
+    return {
+        "id": str(user.id),
+        "email": user.email,
+        "programming_level": user.programming_level,
+        "ai_experience": user.ai_experience,
+        "gpu_available": user.gpu_available,
+        "ram_size": user.ram_size,
+        "created_at": user.created_at
+    }

@@ -23,12 +23,6 @@ export const chatAPI = {
    */
   sendMessage: async (query, backendUrlOverride = null) => {
     const backendUrl = backendUrlOverride || getBaseURL();
-    const authToken = await authService.getAuthToken();
-    const userId = await authService.getUserId();
-
-    if (!authToken) {
-      throw new Error('No authentication token available. Please log in again.');
-    }
 
     // Validate query length
     if (!query || query.trim().length === 0) {
@@ -45,11 +39,12 @@ export const chatAPI = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`
         },
         body: JSON.stringify({
           query: query.trim(),
-        })
+        }),
+        // Include credentials to send session cookies if needed
+        credentials: 'include'
       });
 
       if (!response.ok) {
@@ -57,7 +52,8 @@ export const chatAPI = {
         const errorMessage = errorData.detail || errorData.error || `HTTP error! Status: ${response.status}`;
 
         // Make sure error messages are in English for consistent UI display
-        const standardizedErrorMessage = !errorMessage.match(/[a-zA-Z]/) ?
+        const isString = typeof errorMessage === 'string';
+        const standardizedErrorMessage = !isString || !errorMessage.match(/[a-zA-Z]/) ?
           'An error occurred processing your request' :
           errorMessage;
 
@@ -71,9 +67,10 @@ export const chatAPI = {
       }
 
       // Ensure any non-English error messages are handled correctly
-      const message = error.message && !error.message.match(/[a-zA-Z]/) ?
+      const isErrorMessageString = typeof error.message === 'string';
+      const message = error.message && isErrorMessageString && !error.message.match(/[a-zA-Z]/) ?
         'An error occurred connecting to the chat service' :
-        error.message;
+        error.message || 'An error occurred connecting to the chat service';
 
       throw new Error(message);
     }
@@ -81,17 +78,12 @@ export const chatAPI = {
 
   /**
    * Gets the history of a conversation
-   * @param {number} userId - The user ID
+   * @param {string} userId - The user ID (UUID format)
    * @param {string} backendUrlOverride - Optional backend URL override
    * @returns {Promise<Object>} The conversation history
    */
   getConversationHistory: async (userId, backendUrlOverride = null) => {
     const backendUrl = backendUrlOverride || getBaseURL();
-    const authToken = await authService.getAuthToken();
-
-    if (!authToken) {
-      throw new Error('No authentication token available. Please log in again.');
-    }
 
     if (!userId) {
       throw new Error('User ID is required to get conversation history');
@@ -100,9 +92,8 @@ export const chatAPI = {
     try {
       const response = await fetch(`${backendUrl}/api/v1/chat/history/${userId}`, {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${authToken}`
-        }
+        // Include credentials to send session cookies if needed
+        credentials: 'include'
       });
 
       if (!response.ok) {

@@ -1,7 +1,8 @@
  import React, { JSX, useState } from 'react';
 import Layout from '@theme/Layout';
 import clsx from 'clsx';
-import { generateText, generateMultipleTexts } from '../services/api';
+import api from '../services/api';
+const { generateText, generateMultipleTexts } = api;
 
 function GeneratePage(): JSX.Element {
   const [generatedText, setGeneratedText] = useState<string>("");

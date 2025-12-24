@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ChatMessage, UserMessage, AssistantMessage } from './ChatMessage';
+import { UserMessage, AssistantMessage } from './ChatMessage';
 
 interface ChatInteraction {
   id: number;

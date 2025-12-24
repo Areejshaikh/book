@@ -1,10 +1,10 @@
 from typing import List, Optional
-from backend.src.database import SessionLocal
-from backend.src.models.chapter import TextbookChapter as Chapter
-from backend.src.models.content_version import ContentVersion
-from backend.src.models.user_progress import UserProgress
-from backend.src.schemas.chapter import ChapterSchema
-from backend.src.services.personalization_service import PersonalizationService
+from src.database import SessionLocal
+from src.models.chapter import TextbookChapter as Chapter
+from src.models.content_version import ContentVersion
+from src.models.user_progress import UserProgress
+from src.schemas.chapter import ChapterSchema
+from src.services.personalization_service import PersonalizationService
 
 
 class ChapterService:

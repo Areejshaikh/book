@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { chatAPI } from './chatAPI';
 import '../styles/ChatWindow.css';
 
-const ChatWindow = ({ onClose, backendUrl, onLogout }) => {
+const ChatWindow = ({ onClose, backendUrl }) => {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -128,13 +128,6 @@ const ChatWindow = ({ onClose, backendUrl, onLogout }) => {
       <div className="chat-header">
         <h3 id="chat-window-title">AI Textbook Assistant</h3>
         <div className="chat-actions">
-          <button
-            className="logout-button"
-            onClick={onLogout}
-            aria-label="Log out of chat session"
-          >
-            Logout
-          </button>
           <button
             className="close-button"
             onClick={onClose}

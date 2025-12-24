@@ -1,34 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../styles/ChatbotButton.css';
 import '../styles/ChatWindow.css'; // Also import chat window styles
-import { authService } from '../services/authService';
 import ChatWindow from './ChatWindow';
-import AuthModal from './AuthModal';
 
 const ChatbotButton = ({ position = "bottom-left", size = "large", backendUrl }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authError, setAuthError] = useState('');
 
-  // Check authentication status on component mount
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      const authenticated = await authService.isAuthenticated();
-      setIsAuthenticated(authenticated);
-    };
-    checkAuthStatus();
-  }, []);
-
-  const handleClick = async () => {
-    // If not authenticated, show auth modal
-    if (!isAuthenticated) {
-      setShowAuthModal(true);
-      return;
-    }
-
-    // If authenticated, toggle chat window
+  const handleClick = () => {
+    // Toggle chat window directly without authentication
     if (isOpen) {
       // Trigger close animation
       setIsClosing(true);
@@ -39,23 +19,6 @@ const ChatbotButton = ({ position = "bottom-left", size = "large", backendUrl })
       }, 300); // Match the duration of the CSS animation
     } else {
       setIsOpen(true);
-    }
-  };
-
-  const handleAuthSuccess = () => {
-    setIsAuthenticated(true);
-    setShowAuthModal(false);
-    setIsOpen(true); // Open chat window after successful auth
-  };
-
-  const handleLogout = async () => {
-    try {
-      await authService.signOut();
-      setIsAuthenticated(false);
-      setIsOpen(false);
-    } catch (error) {
-      console.error('Logout error:', error);
-      setAuthError('Error logging out. Please try again.');
     }
   };
 
@@ -74,11 +37,10 @@ const ChatbotButton = ({ position = "bottom-left", size = "large", backendUrl })
 
   return (
     <div className="chatbot-container">
-      {isOpen && isAuthenticated && !isClosing && (
+      {isOpen && !isClosing && (
         <ChatWindow
           onClose={handleWindowClose}
           backendUrl={backendUrl}
-          onLogout={handleLogout}
         />
       )}
 
@@ -87,7 +49,6 @@ const ChatbotButton = ({ position = "bottom-left", size = "large", backendUrl })
           <ChatWindow
             onClose={handleWindowClose}
             backendUrl={backendUrl}
-            onLogout={handleLogout}
           />
         </div>
       )}
@@ -103,20 +64,6 @@ const ChatbotButton = ({ position = "bottom-left", size = "large", backendUrl })
       >
         💬
       </button>
-
-      {showAuthModal && (
-        <AuthModal
-          onClose={() => setShowAuthModal(false)}
-          onAuthSuccess={handleAuthSuccess}
-          onError={(error) => setAuthError(error)}
-        />
-      )}
-
-      {authError && (
-        <div className="auth-error-message" role="alert" aria-live="assertive">
-          {authError}
-        </div>
-      )}
     </div>
   );
 };

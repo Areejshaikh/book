@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
-from backend.src.services.chapter_service import ChapterService
-from backend.src.schemas.chapter import ChapterSchema
+from src.services.chapter_service import ChapterService
+from src.schemas.chapter import ChapterSchema
 import logging
 
 

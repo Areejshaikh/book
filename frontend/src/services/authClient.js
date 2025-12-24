@@ -1,126 +1,270 @@
-// Mock authentication service that simulates Better Auth API
-// This will be replaced with actual Better Auth implementation
+// Better Auth client implementation
+// This interfaces with the existing backend auth API
+// Since the Better Auth client API doesn't work with the alpha version,
+// we'll implement direct API calls to the backend auth routes
 
-// For now, we'll simulate the authentication flow
-// In a real implementation, this would interface with Better Auth's actual API
+// Get base URL for API requests
+const getBaseURL = () => {
+  // First check for environment variable in browser (for Docusaurus)
+  if (typeof window !== 'undefined' && window.ENV && window.ENV.REACT_APP_API_BASE_URL) {
+    return window.ENV.REACT_APP_API_BASE_URL;
+  }
 
-const BASE_URL = typeof window !== 'undefined'
-  ? window.REACT_APP_API_BASE_URL || 'http://localhost:8000'
-  : 'http://localhost:8000';
+  // Check for environment variable in process (for React apps)
+  if (typeof process !== 'undefined' && process.env && process.env.REACT_APP_API_BASE_URL) {
+    return process.env.REACT_APP_API_BASE_URL;
+  }
 
-// Store for mock session data
-let mockSession = null;
+  // Check for window variable (set by Docusaurus)
+  if (typeof window !== 'undefined' && window.REACT_APP_API_BASE_URL) {
+    return window.REACT_APP_API_BASE_URL;
+  }
 
-// Mock sign in functionality
+  // Default fallback
+  return 'http://localhost:8000'; // Backend API URL
+};
+
+// Sign in functionality
 export const signIn = {
-  email: async ({ email, password, callbackURL }) => {
-    // Simulate API call with delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+  /**
+   * Sign in with email and password
+   * @param {{email: string, password: string}} params
+   * @returns {Promise<Object>} The sign in result
+   */
+  email: async (params) => {
+    const { email, password } = params || {};
 
-    // Simulate simple authentication validation
+    // Validation
     if (!email || !password) {
       return { error: { message: 'Email and password are required' } };
     }
 
-    // In a real implementation, this would call the actual Better Auth API
-    mockSession = {
-      user: {
-        id: `user_${Date.now()}`,
-        email: email,
-        name: email.split('@')[0] // Use part of email as name
-      },
-      token: `mock_token_${Math.random().toString(36).substring(2, 15)}`,
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 hours from now
-    };
+    try {
+      // Use the backend auth routes
+      const response = await fetch(`${getBaseURL()}/api/v1/auth/signin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded', // OAuth2PasswordRequestForm format
+        },
+        body: new URLSearchParams({
+          username: email, // FastAPI expects 'username' field for email
+          password: password
+        })
+      });
 
-    // Store in localStorage to persist across page reloads
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('better-auth-session', JSON.stringify(mockSession));
+      // Check if the response is ok before trying to parse JSON
+      if (!response.ok) {
+        // Try to get error details from response
+        let errorDetails;
+        try {
+          errorDetails = await response.json();
+        } catch (jsonError) {
+          // If we can't parse JSON, use status text
+          errorDetails = { detail: `HTTP error! status: ${response.status}` };
+        }
+
+        return {
+          error: {
+            message: errorDetails.detail || errorDetails.message || `HTTP error! status: ${response.status}`
+          }
+        };
+      }
+
+      const result = await response.json();
+
+      // Success response from backend
+      return {
+        success: true,
+        ...result
+      };
+    } catch (error) {
+      console.error('Sign in error:', error);
+      // Check if it's a network error
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        return {
+          error: {
+            message: `Network error: Unable to connect to the authentication server at ${getBaseURL()}. Please make sure the backend is running.`
+          }
+        };
+      }
+
+      return {
+        error: {
+          message: error.message || 'Sign in failed'
+        }
+      };
     }
-
-    return { success: true, session: mockSession };
   },
 
-  google: async ({ callbackURL, redirect }) => {
-    // Simulate OAuth redirect flow
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    // For this mock implementation, we'll simulate successful Google auth
-    mockSession = {
-      user: {
-        id: `google_user_${Date.now()}`,
-        email: 'user@gmail.com', // In a real impl, this would come from Google
-        name: 'Google User',
-        provider: 'google'
-      },
-      token: `mock_token_${Math.random().toString(36).substring(2, 15)}`,
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+  /**
+   * Sign in with Google
+   * @param {{callbackURL?: string}} params
+   * @returns {Promise<Object>} The sign in result
+   */
+  google: async (params) => {
+    // Google OAuth is not implemented in the current backend
+    // This would require Google OAuth setup in the backend
+    return {
+      error: {
+        message: 'Google sign-in is not configured in the backend. Please use email/password sign-in.'
+      }
     };
-
-    // Store in localStorage
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('better-auth-session', JSON.stringify(mockSession));
-    }
-
-    return { success: true, session: mockSession };
   }
 };
 
-// Mock sign out functionality
-export const signOut = async () => {
-  await new Promise(resolve => setTimeout(resolve, 300));
+/**
+ * Sign up with email and additional user background info
+ * @param {{email: string, password: string, name?: string, programming_level?: string, ai_experience?: string, gpu_available?: boolean, ram_size?: string}} userData
+ * @returns {Promise<Object>} The sign up result
+ */
+export const signUp = async (userData) => {
+  const {
+    email,
+    password,
+    name,
+    programming_level = 'beginner',
+    ai_experience = 'none',
+    gpu_available = false,
+    ram_size = '8GB'
+  } = userData || {};
 
-  // Clear mock session
-  mockSession = null;
-  if (typeof window !== 'undefined') {
-    window.localStorage.removeItem('better-auth-session');
+  // Validation
+  if (!email || !password) {
+    return { error: { message: 'Email and password are required' } };
   }
 
+  try {
+    // Use the backend auth routes
+    const response = await fetch(`${getBaseURL()}/api/v1/auth/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        name: name || email.split('@')[0],
+        programming_level,
+        ai_experience,
+        gpu_available,
+        ram_size
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        error: {
+          message: result.detail || result.message || 'Sign up failed'
+        }
+      };
+    }
+
+    return {
+      success: true,
+      ...result
+    };
+  } catch (error) {
+    console.error('Sign up error:', error);
+    return {
+      error: {
+        message: error.message || 'Sign up failed'
+      }
+    };
+  }
+};
+
+// Sign out functionality
+export const signOut = async () => {
+  // For the current backend, sign out is handled client-side by clearing tokens
+  // since it uses JWT tokens stored in memory/localStorage
+  localStorage.removeItem('jwt_token');
+  localStorage.removeItem('access_token');
   return { success: true };
 };
 
-// Mock get session functionality
+// Get current session
 export const getSession = async () => {
-  // Check if we have a session in localStorage
-  if (typeof window !== 'undefined') {
-    const storedSession = window.localStorage.getItem('better-auth-session');
-    if (storedSession) {
-      const session = JSON.parse(storedSession);
+  // Try to get user info from the /me endpoint which requires authentication
+  try {
+    // Get the auth token from wherever it's stored
+    const token = localStorage.getItem('jwt_token') || localStorage.getItem('access_token');
 
-      // Check if session is expired
-      if (new Date(session.expiresAt) > new Date()) {
-        mockSession = session;
-        return session;
-      } else {
-        // Session expired, clear it
-        window.localStorage.removeItem('better-auth-session');
+    if (!token) {
+      return null;
+    }
+
+    const response = await fetch(`${getBaseURL()}/api/v1/auth/me`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      // If the token is invalid or expired, return null
+      if (response.status === 401 || response.status === 403) {
+        // Clear the invalid token
+        localStorage.removeItem('jwt_token');
+        localStorage.removeItem('access_token');
         return null;
       }
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const user = await response.json();
+
+    // Return a session-like object that includes both user data and token
+    return {
+      user: user,
+      token: token
+    };
+  } catch (error) {
+    console.error('Get session error:', error);
+    return null;
   }
-
-  return mockSession;
 };
 
-// Mock get account functionality
+// Get user account
 export const getAccount = async () => {
-  const session = await getSession();
-  return session?.user || null;
+  try {
+    const session = await getSession();
+    return session?.user || null;
+  } catch (error) {
+    console.error('Get user error:', error);
+    return null;
+  }
 };
 
-// Mock function to get auth token
+// Get auth token
 export const getAuthToken = async () => {
-  const session = await getSession();
-  return session?.token || null;
+  try {
+    // Get token from localStorage where it would be stored after login
+    return localStorage.getItem('jwt_token') || localStorage.getItem('access_token') || null;
+  } catch (error) {
+    console.error('Get auth token error:', error);
+    return null;
+  }
 };
 
-// Mock function to check if user is authenticated
+// Check if user is authenticated
 export const isAuthenticated = async () => {
-  const session = await getSession();
-  return !!(session && session.user);
+  try {
+    const session = await getSession();
+    return !!session && !!session.user;
+  } catch (error) {
+    console.error('Check authentication error:', error);
+    return false;
+  }
 };
 
-// Mock function to initialize auth state
+// Initialize auth state
 export const initializeAuth = async () => {
-  return await getSession();
+  try {
+    return await getSession();
+  } catch (error) {
+    console.error('Initialize auth error:', error);
+    return null;
+  }
 };

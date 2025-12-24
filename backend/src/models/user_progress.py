@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, Float, DateTime
 from sqlalchemy.sql import func
-from backend.src.database import Base
+from src.database import Base
 
 
 class UserProgress(Base):

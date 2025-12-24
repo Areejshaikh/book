@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
-from backend.src.services.progress_service import ProgressService
-from backend.src.schemas.progress import ProgressSchema, ProgressUpdateRequest
+from src.services.progress_service import ProgressService
+from src.schemas.progress import ProgressSchema, ProgressUpdateRequest
 import logging
 
 

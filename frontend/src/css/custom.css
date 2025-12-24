@@ -40,6 +40,64 @@
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
+/* RTL Support for Urdu */
+[dir="rtl"] {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .hero-title,
+[dir="rtl"] .hero-subtitle {
+  text-align: right;
+}
+
+[dir="rtl"] .module-card,
+[dir="rtl"] .chapter-card,
+[dir="rtl"] .quiz-container {
+  border-right: 4px solid var(--ifm-color-primary);
+  border-left: none;
+}
+
+[dir="rtl"] .textbook-intro-card {
+  border-right: 4px solid var(--ifm-color-primary);
+  border-left: none;
+}
+
+[dir="rtl"] .navbar {
+  padding-right: 1rem;
+  padding-left: 0;
+}
+
+[dir="rtl"] .navbar__item {
+  margin-right: 0;
+  margin-left: 1rem;
+}
+
+[dir="rtl"] .chat-input input {
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+
+[dir="rtl"] .chat-input button {
+  border-radius: 0.375rem 0 0 0.375rem;
+}
+
+[dir="rtl"] .user-message {
+  align-self: flex-start;
+  border-radius: 0.5rem 0.5rem 0.5rem 0;
+  border-bottom-left-radius: 0;
+}
+
+[dir="rtl"] .assistant-message {
+  align-self: flex-end;
+  border-radius: 0.5rem 0.5rem 0 0.5rem;
+  border-bottom-right-radius: 0;
+}
+
+[dir="rtl"] .quiz-option.selected {
+  border-right: 4px solid var(--ifm-color-primary);
+  border-left: none;
+}
+
 /* Custom styles for the new homepage layout */
 .navbar {
   box-shadow: var(--ifm-navbar-shadow);

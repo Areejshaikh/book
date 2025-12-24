@@ -1,8 +1,8 @@
 import json
 from typing import List, Optional
-from backend.src.database import SessionLocal
-from backend.src.models.learning_materials import LearningMaterials
-from backend.src.models.chapter import TextbookChapter as Chapter
+from src.database import SessionLocal
+from src.models.learning_materials import LearningMaterials
+from src.models.chapter import TextbookChapter as Chapter
 
 
 class LearningMaterialsService:

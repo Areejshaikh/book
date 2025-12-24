@@ -1,6 +1,6 @@
 from typing import List
-from backend.src.database import SessionLocal
-from backend.src.models.user_progress import UserProgress
+from src.database import SessionLocal
+from src.models.user_progress import UserProgress
 
 
 class ProgressService:

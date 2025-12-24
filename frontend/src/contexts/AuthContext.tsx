@@ -5,7 +5,8 @@ interface AuthContextType {
   user: any; // Replace with proper User type
   isAuthenticated: boolean;
   isLoading: boolean;
-  signIn: (provider?: string, options?: any) => Promise<any>;
+  signIn: (email: string, password: string) => Promise<any>;
+  signUp: (userData: any) => Promise<any>;
   signOut: () => Promise<void>;
   initializeAuth: () => Promise<void>;
 }
@@ -27,7 +28,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         setIsLoading(true);
         const session = await authService.getSession();
-        if (session) {
+        if (session && (session.user || session.id)) {
           setUser(session.user || session);
           setIsAuthenticated(true);
         } else {
@@ -49,20 +50,52 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // This is where we'd handle token refresh or session changes
   }, []);
 
-  const signIn = async (provider = 'email', options = {}) => {
+  const signIn = async (email: string, password: string) => {
     try {
-      const result = await authService.signIn(provider, options);
-      if (!result?.error) {
+      const result = await authService.signIn('email', {
+        email,
+        password,
+        callbackURL: window.location.href,
+        redirect: false
+      });
+
+      if (result?.success) {
         // Get updated session after sign in
         const session = await authService.getSession();
-        if (session) {
+        if (session && (session.user || session.id)) {
           setUser(session.user || session);
           setIsAuthenticated(true);
+          return result;
         }
+      } else {
+        // Handle error case
+        console.error('Sign in failed:', result?.error);
+        return result;
       }
-      return result;
     } catch (error) {
       console.error('Sign in error:', error);
+      throw error;
+    }
+  };
+
+  const signUp = async (userData: any) => {
+    try {
+      const result = await authService.signUp(userData);
+      if (result?.success) {
+        // Get updated session after sign up
+        const session = await authService.getSession();
+        if (session && (session.user || session.id)) {
+          setUser(session.user || session);
+          setIsAuthenticated(true);
+          return result;
+        }
+      } else {
+        // Handle error case
+        console.error('Sign up failed:', result?.error);
+        return result;
+      }
+    } catch (error) {
+      console.error('Sign up error:', error);
       throw error;
     }
   };
@@ -82,7 +115,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       const session = await authService.getSession();
-      if (session) {
+      if (session && (session.user || session.id)) {
         setUser(session.user || session);
         setIsAuthenticated(true);
       } else {
@@ -103,6 +136,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isAuthenticated,
     isLoading,
     signIn,
+    signUp,
     signOut,
     initializeAuth
   };

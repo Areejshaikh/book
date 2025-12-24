@@ -1,5 +1,4 @@
 import React from 'react';
-import { QuizComponent } from '../QuizComponent';
 
 interface ChapterProps {
   title: string;
@@ -22,7 +21,7 @@ export const ChapterComponent: React.FC<ChapterProps> = ({
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">{title}</h1>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div className="bg-blue-50 p-4 rounded-lg">
             <h2 className="font-semibold text-blue-800 mb-2">Learning Objectives</h2>
@@ -32,7 +31,7 @@ export const ChapterComponent: React.FC<ChapterProps> = ({
               ))}
             </ul>
           </div>
-          
+
           <div className="bg-green-50 p-4 rounded-lg">
             <h2 className="font-semibold text-green-800 mb-2">Prerequisites</h2>
             <ul className="list-disc pl-5 space-y-1">
@@ -45,19 +44,18 @@ export const ChapterComponent: React.FC<ChapterProps> = ({
       </header>
 
       <div className="prose prose-lg max-w-none mb-8">
-        <div 
+        <div
           className="chapter-content"
-          dangerouslySetInnerHTML={{ __html: content }} 
+          dangerouslySetInnerHTML={{ __html: content }}
         />
       </div>
 
       {quizQuestions.length > 0 && (
         <div className="mt-12 pt-8 border-t border-gray-200">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Knowledge Check</h2>
-          <QuizComponent 
-            questions={quizQuestions} 
-            onComplete={(score, total) => onProgressUpdate && onProgressUpdate((score / total) * 100)} 
-          />
+          <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+            <p className="text-gray-700">Knowledge check functionality not available in this version.</p>
+          </div>
         </div>
       )}
 

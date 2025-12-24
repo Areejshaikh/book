@@ -4,7 +4,6 @@ import { ChapterContent } from '../../components/ChapterContent';
 import { ChapterNavigation } from '../../components/ChapterNavigation';
 import { TableOfContents } from '../../components/TableOfContents';
 import { ChatComponent } from '../../components/ChatComponent';
-import { LearningMaterials } from '../../components/LearningMaterials';
 import { getChapterById } from '../../services/chapterService';
 import { Chapter } from '../../types/chapter';
 
@@ -62,10 +61,6 @@ const ChapterPage = () => {
           <div>
             <h2 className="text-xl font-semibold mb-4">Ask AI Assistant</h2>
             <ChatComponent chapterId={chapter.id} />
-          </div>
-
-          <div>
-            <LearningMaterials chapterId={chapter.id} />
           </div>
         </div>
       </div>

@@ -6,11 +6,11 @@ from unittest.mock import Mock, patch
 # Add the backend/src directory to the Python path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from backend.src.embedding_pipeline.config import Config, validate_config
-from backend.src.embedding_pipeline.url_fetcher import get_all_urls
-from backend.src.embedding_pipeline.text_cleaner import extract_text_from_urls
-from backend.src.embedding_pipeline.chunker import chunk_text
-from backend.src.embedding_pipeline.models import DocumentChunk, EmbeddingVector, URLProcessingRecord
+from src.embedding_pipeline.config import Config, validate_config
+from src.embedding_pipeline.url_fetcher import get_all_urls
+from src.embedding_pipeline.text_cleaner import extract_text_from_urls
+from src.embedding_pipeline.chunker import chunk_text
+from src.embedding_pipeline.models import DocumentChunk, EmbeddingVector, URLProcessingRecord
 
 
 class TestConfig:
@@ -31,6 +31,8 @@ class TestConfig:
         assert hasattr(Config, 'QDRANT_URL')
         assert hasattr(Config, 'SOURCE_URLS')
         assert hasattr(Config, 'COLLECTION_NAME')
+        assert hasattr(Config, 'GEMINI_API_KEY')
+
 
 
 class TestURLFetcher:
