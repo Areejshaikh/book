@@ -13,9 +13,9 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://areejshaikh.github.io/book/',  // GitHub Pages base URL
+  url: 'https://book-git-main.areejshaikh.vercel.app',  // Vercel deployment URL
   // Set the /<baseUrl>/ pathname under which your site is served
-  baseUrl: '/book/',  // For GitHub Pages project site (https://username.github.io/repo-name/)
+  baseUrl: '/',  // Root base URL for Vercel deployment
   // GitHub pages deployment config
   organizationName: 'areejshaikh', // Usually your GitHub org/user name.
   projectName: 'book', // Usually your repo name.
