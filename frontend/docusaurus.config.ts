@@ -17,7 +17,7 @@ const config: Config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   baseUrl: '/',  // Root base URL for Vercel deployment
   // GitHub pages deployment config
-  organizationName: 'areejshaikh', // Usually your GitHub org/user name.
+  organizationName: 'Areejshaikh', // Usually your GitHub org/user name.
   projectName: 'book', // Usually your repo name.
 
   onBrokenLinks: 'warn',
