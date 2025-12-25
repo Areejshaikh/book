@@ -28,9 +28,7 @@ export const ChapterContent: React.FC<ChapterContentProps> = ({
   const [translatedContent, setTranslatedContent] = useState<string>(content);
   const [translatedTitle, setTranslatedTitle] = useState<string>(chapterTitle);
   const [isTranslating, setIsTranslating] = useState(false);
-  const { currentLanguage } = useLanguage();
-
-  const { t } = useLanguage;
+  const { currentLanguage, t } = useLanguage();
 
   // Function to simulate content personalization
   const togglePersonalization = () => {

@@ -3,20 +3,30 @@
   "name": "rag-chatbot-book",
   "builds": [
     {
-      "src": "backend/main.py",
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build",
+        "buildCommand": "cd frontend && npm install && npm run build"
+      }
+    },
+    {
+      "src": "api/[[...path]].py",
       "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
+      }
     }
   ],
   "routes": [
     {
       "src": "/api/v1/(.*)",
-      "dest": "/backend/main.py"
+      "dest": "/api/[[...path]].py"
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/$1",
-      "continue": true
+      "dest": "/frontend/$1"
     }
   ],
   "env": {
@@ -27,7 +37,7 @@
     "SIMILARITY_THRESHOLD": "0.6"
   },
   "functions": {
-    "backend/main.py": {
+    "api/[[...path]].py": {
       "memory": 1024,
       "maxDuration": 30
     }
